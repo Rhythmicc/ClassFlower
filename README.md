@@ -2,6 +2,8 @@
 
 为你的班级制作一个小红花榜，本项目可以生成一个Markdown文件，通过 [typora](https://typora.io/) 将其导出为HTML，并自动上传至腾讯云开发的静态网页部署。
 
+预览：https://flowers.rhythmlian.cn/
+
 ## 准备
 
 ### 腾讯云资源申请
