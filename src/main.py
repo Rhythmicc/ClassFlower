@@ -9,7 +9,7 @@ level = [
     '<img src="https://api-img.alapi.cn/image/2022/03/03/6812c5f466cd564428c574ce7f321b64.jpg" alt=""/>'
 ]
 className = '一年级四班'
-tcb_env_id = 'class-flower-3gxlc5aza07b4c02'
+tcb_env_id = '你的腾讯云环境ID'
 app = Commander()
 
 
