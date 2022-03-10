@@ -66,15 +66,15 @@ def gen():
                 if str_time not in has_add:
                     has_add[str_time] = []
                 has_add[str_time].append(f'<li>{item["content"]}</li>\n')
-                for str_time in has_add:
-                    print(
+            for str_time in has_add:
+                print(
 f"""<details>
     <summary>{str_time}</summary>
         <ul>
             {''.join(has_add[str_time]).strip()}
         </ul>
 </details>""", file=f
-                    )
+                )
         else:
             QproDefaultConsole.print(QproErrorString, '数据库内无明细记录')
         print('## 兑换规则\n\n|图标|兑换方式|\n|:---:|:---:|', file=f)
