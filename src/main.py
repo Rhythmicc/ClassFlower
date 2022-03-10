@@ -1,3 +1,4 @@
+import pyperclip
 from .API.RecordAPI import RecordAPI
 from .API.ReasonsAPI import ReasonsAPI
 from QuickProject import QproDefaultConsole, QproInfoString, _ask, QproErrorString
@@ -14,6 +15,8 @@ app = Commander()
 
 
 def count2level(count):
+    if count < 0:
+        return str(count)
     res = []
     index = 0
     while count:
@@ -121,7 +124,7 @@ def daily_update(json_filepath: str = 'dist/update.json'):
             res = RecordAPI.update_record(item, update_info['stars'][item])
             if not res['status']:
                 QproDefaultConsole.print(QproErrorString, res['message'])
-        date = datetime.datetime.today().strftime('%Y-%m-%d')
+        date = datetime.datetime.today()
         for item in update_info['contents']:
             res = ReasonsAPI.add_reason(date, item)
             if not res['status']:
@@ -148,6 +151,18 @@ def gen_update_template():
             f, indent=1
         )
     QproDefaultConsole.print(QproInfoString, '日常更新模板已更新在 "dist/update.json"')
+
+
+@app.command()
+def add_update(contents: str, score: int, names: str = pyperclip.paste()):
+    import json
+    name_ls = names.strip().split('，')
+    with open('dist/update.json', 'r') as f:
+        res = json.loads(f.read())
+    with open('dist/update.json', 'w') as f:
+        res['stars'].update({i: score for i in name_ls})
+        res['contents'].append(contents)
+        json.dump(res, f, indent=1, ensure_ascii=False)
 
 
 if __name__ == '__main__':

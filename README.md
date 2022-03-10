@@ -29,8 +29,7 @@ git clone https://github.com/Rhythmicc/ClassFlower.git
 pip3 install -r requirements.txt
 ```
 
-1. 执行`python3 -m src.tables.create_db`，在`dist/flower.db`处生成一个默认sqlite数据库。
-2. 在`flower.db > record`表中，将班级同学的姓名录入，其中ID是自生成的不用填写，count是默认为0的也不用填写。
+执行`python3 -m src.tables.create_db`，在`dist/flower.db`处生成一个默认sqlite数据库。
 
 ## 使用方式
 
@@ -48,7 +47,7 @@ pip3 install -r requirements.txt
    }
    ```
 
-2. `qrun daily_update`将模板中数据导入数据库。
+2. `qrun daily_update`将模板中数据导入数据库（未出现在数据库中的名字将被自动创建）。
 
 3. `qrun gen`生成Markdown文件，默认使用Typora打开，请将其导出为HTML格式到`public`文件夹，确认上传即可。
 

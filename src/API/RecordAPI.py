@@ -7,7 +7,10 @@ class RecordAPI:
     @APIFuncWrapper
     def update_record(name, add, session: Session = None):
         student = session.query(Record).filter_by(name=name).first()
-        if student:
+        if not student:
+            student = Record(name=name, count=add)
+            session.add(student)
+        else:
             student.count = student.count + add
         return Success
 

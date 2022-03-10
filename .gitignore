@@ -1,3 +1,6 @@
 dist/flower.db
 .idea
 dist/update.json
+dist/index.md
+.DS_Store
+public/index.html
