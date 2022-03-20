@@ -4,11 +4,17 @@ from .API.ReasonsAPI import ReasonsAPI
 from QuickProject import QproDefaultConsole, QproInfoString, _ask, QproErrorString
 from QuickProject.Commander import Commander
 
+#level = [
+#    '<img src="https://api-img.alapi.cn/image/2022/03/03/1faa0ff764bb2e2be38903a443d3beed.jpg" alt=""/>',
+#    '<img src="https://api-img.alapi.cn/image/2022/03/03/35b05158260697a1fdaf20af4006336d.jpg" alt=""/>',
+#    '<img src="https://api-img.alapi.cn/image/2022/03/03/6812c5f466cd564428c574ce7f321b64.jpg" alt=""/>'
+#]
 level = [
-    '<img src="https://api-img.alapi.cn/image/2022/03/03/1faa0ff764bb2e2be38903a443d3beed.jpg" alt=""/>',
-    '<img src="https://api-img.alapi.cn/image/2022/03/03/35b05158260697a1fdaf20af4006336d.jpg" alt=""/>',
-    '<img src="https://api-img.alapi.cn/image/2022/03/03/6812c5f466cd564428c574ce7f321b64.jpg" alt=""/>'
+    '<img src="https://cos.rhythmlian.cn/ImgBed/49927c57ee9516a776b922c5b169039a.png" alt=""/>',
+    '<img src="https://cos.rhythmlian.cn/ImgBed/8fa034465d839efda7188470f88a5c72.png" alt=""/>',
+    '<img src="https://cos.rhythmlian.cn/ImgBed/19d1f8e6e0a614d4a3b48920050c66c7.png" alt=""/>'
 ]
+
 className = '一年级四班'
 tcb_env_id = 'class-flower-3gxlc5aza07b4c02'
 app = Commander()
@@ -155,6 +161,14 @@ def gen_update_template():
 
 @app.command()
 def add_update(contents: str, score: int, names: str = pyperclip.paste()):
+    """
+    添加加分项
+
+    :param contents: 加分理由
+    :param score: 整数分数
+    :param names: 以中文逗号分隔的姓名字符串，默认从粘贴板获取
+    :return:
+    """
     import json
     name_ls = names.strip().split('，')
     with open('dist/update.json', 'r') as f:
