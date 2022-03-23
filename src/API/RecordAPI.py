@@ -1,3 +1,4 @@
+from QuickProject import QproDefaultConsole, QproWarnString
 from ..tables import Record
 from . import APIFuncWrapper, Success, Session, to_dict, desc
 
@@ -10,6 +11,7 @@ class RecordAPI:
         if not student:
             student = Record(name=name, count=add)
             session.add(student)
+            QproDefaultConsole.print(QproWarnString, f'{name} 不在数据库中! 已自动添加')
         else:
             student.count = student.count + add
         return Success
