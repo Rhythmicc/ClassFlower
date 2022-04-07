@@ -17,6 +17,7 @@ level = [
 
 className = '一年级四班'
 tcb_env_id = 'class-flower-3gxlc5aza07b4c02'
+font_size = 20
 app = Commander()
 
 
@@ -35,10 +36,9 @@ def count2level(count):
 @app.command()
 def gen():
     """
-    生成Markdown文件，半自动上传
+    自动生成HTML表单并上传
     """
-    from QuickStart_Rhy import open_file
-
+    import os
     reasons = ReasonsAPI.list_reasons_ordered_by_date()
     if not reasons['status']:
         QproDefaultConsole.print(QproErrorString, reasons['message'])
@@ -51,20 +51,24 @@ def gen():
         return
     table = table['data']
 
-    with open('dist/index.md', 'w') as f:
-        print(f'# {className}小红花榜\n\n<center><a href="#每日明细">点此查看每日明细</a></center>\n', file=f)
-        print('|排名|姓名|小红花|\n|:---:|:---:|:---:|', file=f)
-        if len(table):
-            max_count = table[0]['count']
-            cur_rank = 1
-            for rank, item in enumerate(table):
-                if item['count'] < max_count:
-                    cur_rank = rank + 1
-                    max_count = item['count']
-                print(f'|{cur_rank}|{item["name"]}|{count2level(item["count"])}|', file=f)
-        else:
-            QproDefaultConsole.print(QproErrorString, '数据库内无小红花记录')
-        print('\n## 每日明细\n', file=f)
+    with open('dist/template.html', 'r') as f:
+        template = f.read()
+    table_content = ''
+    detail_content = ''
+    if not os.path.exists('public') or not os.path.isdir('public'):
+        os.mkdir('public')
+    with open('public/index.html', 'w') as f:
+        max_count = table[0]['count']
+        cur_rank = 1
+        for rank, record in enumerate(table):
+            if record['count'] < max_count:
+                cur_rank = rank + 1
+                max_count = record['count']
+            table_content += '<tr>'
+            table_content += '<td style="text-align:center;"><span style="font-size: {}px"><b>{}</b></span></td>'.format(font_size, cur_rank)
+            table_content += '<td style="text-align:center;"><span style="font-size: {}px"><b>{}</b></span></td>'.format(font_size, record['name'])
+            table_content += '<td style="text-align:center;"><span style="font-size: {}px"><b>{}</b></span></td>'.format(font_size, count2level(record['count']))
+            table_content += '</tr>'
         if len(reasons):
             has_add = {}
             for item in reasons:
@@ -73,23 +77,15 @@ def gen():
                     has_add[str_time] = []
                 has_add[str_time].append(f'<li>{item["content"]}</li>\n')
             for str_time in has_add:
-                print(
-f"""<details>
+                detail_content += f"""<details>
     <summary>{str_time}</summary>
         <ul>
             {''.join(has_add[str_time]).strip()}
         </ul>
-</details>""", file=f
-                )
+</details>"""
         else:
             QproDefaultConsole.print(QproErrorString, '数据库内无明细记录')
-        print('## 兑换规则\n\n|图标|兑换方式|\n|:---:|:---:|', file=f)
-        print(f'|{level[2]}|5个{level[1]}|', file=f)
-        print(f'|{level[1]}|5个{level[0]}|', file=f)
-    QproDefaultConsole.print(QproInfoString, 'Markdown文件更新在 "dist/index.md", 已通过Typora打开。')
-    QproDefaultConsole.print(QproInfoString, '请将导出的HTML文件放置在public文件夹中。')
-
-    open_file(['dist/index.md'])
+        f.write(template.replace('__CLASS_FLOWER_TBODY_CONTENT__', table_content).replace('__CLASS_FLOWER_DETAIL_CONTENT__', detail_content))
 
     if _ask({
         'type': 'confirm',
@@ -99,23 +95,13 @@ f"""<details>
     }):
         import os
         os.chdir('public')
-        with open('index.html', 'r') as f:
-            ct = f.read().split('\n')
-        with open('index.html', 'w') as f:
-            not_write = True
-            for line in ct:
-                if line.startswith('<meta') and not_write:
-                    not_write = False
-                    print('<title>一年级四班小红花榜</title>\n'
-                          '<link rel="shortcut icon" href="https://rhythmlian.cn/img/favicon.ico">', file=f)
-                print(line, file=f)
         os.system(f'tcb hosting deploy -e {tcb_env_id}')
 
 
 @app.command()
 def daily_update(json_filepath: str = 'dist/update.json'):
     """
-    每日更新，默认是用dist/update.json
+    每日更新，默认用dist/update.json
 
     :param json_filepath: 每日更新表
     :return:
@@ -170,7 +156,7 @@ def add_update(contents: str, score: int, names: str = pyperclip.paste()):
     :return:
     """
     import json
-    name_ls = names.strip().split('，')
+    name_ls = names.strip().split('，') if '，' in names else names.strip().split(',')
     with open('dist/update.json', 'r') as f:
         res = json.loads(f.read())
     with open('dist/update.json', 'w') as f:
