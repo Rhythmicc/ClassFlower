@@ -85,6 +85,7 @@ def gen():
 </details>"""
         else:
             QproDefaultConsole.print(QproErrorString, '数据库内无明细记录')
+        template = template.replace('__CLASS_NAME__', className)
         f.write(template.replace('__CLASS_FLOWER_TBODY_CONTENT__', table_content).replace('__CLASS_FLOWER_DETAIL_CONTENT__', detail_content))
 
     if _ask({
