@@ -47,6 +47,8 @@ pip3 install -r requirements.txt
    }
    ```
 
+   或使用`qrun add_update <加分原因> <整数> [--names <以逗号分隔的多个姓名>]`命令自动添加，`--names`选项未设置时，默认从粘贴板中获取姓名列表。
+
 2. `qrun daily_update`将模板中数据导入数据库（未出现在数据库中的名字将被自动创建）。
 
 3. `qrun gen`生成HTML文件到`public`文件夹，确认上传即可。
