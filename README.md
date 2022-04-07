@@ -1,6 +1,6 @@
 # 小红花榜
 
-为你的班级制作一个小红花榜，本项目可以生成一个Markdown文件，通过 [typora](https://typora.io/) 将其导出为HTML，并自动上传至腾讯云开发的静态网页部署。
+为你的班级制作一个小红花榜，生成HTML并自动上传至腾讯云开发的静态网页部署。
 
 预览：https://flowers.rhythmlian.cn/
 
@@ -49,5 +49,4 @@ pip3 install -r requirements.txt
 
 2. `qrun daily_update`将模板中数据导入数据库（未出现在数据库中的名字将被自动创建）。
 
-3. `qrun gen`生成Markdown文件，默认使用Typora打开，请将其导出为HTML格式到`public`文件夹，确认上传即可。
-
+3. `qrun gen`生成HTML文件到`public`文件夹，确认上传即可。
