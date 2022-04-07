@@ -156,8 +156,11 @@ def add_update(contents: str, score: int, names: str = pyperclip.paste()):
     :param names: 以中文逗号分隔的姓名字符串，默认从粘贴板获取
     :return:
     """
+    import re
     import json
-    name_ls = names.strip().split('，') if '，' in names else names.strip().split(',')
+    name_ls = set(re.split(',|，| |\|', names))
+    if '' in name_ls:
+        name_ls.remove('')
     with open('dist/update.json', 'r') as f:
         res = json.loads(f.read())
     with open('dist/update.json', 'w') as f:
