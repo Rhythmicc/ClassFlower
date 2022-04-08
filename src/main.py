@@ -18,7 +18,7 @@ level = [
 className = '一年级四班'
 tcb_env_id = 'class-flower-3gxlc5aza07b4c02'
 font_size = 20
-app = Commander()
+app = Commander(seg_flag=True)
 
 
 def count2level(count):
@@ -147,7 +147,7 @@ def gen_update_template():
 
 
 @app.command()
-def add_update(contents: str, score: int, names: str = '_'):
+def add_update(contents: str, score: int, names: str = 'pyperclip.paste()'):
     """
     添加加分项
 
@@ -158,7 +158,7 @@ def add_update(contents: str, score: int, names: str = '_'):
     """
     import re
     import json
-    if names == '_':
+    if names == 'pyperclip.paste()':
         names = pyperclip.paste()
     name_ls = set(re.split(',|，| |\|', names))
     if '' in name_ls:
