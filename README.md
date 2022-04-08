@@ -47,7 +47,7 @@ pip3 install -r requirements.txt
    }
    ```
 
-   或使用`qrun add-update <加分原因> <整数> [--names <以逗号分隔的多个姓名>]`命令自动添加，`--names`选项未设置时，默认从粘贴板中获取姓名列表。
+   或使用`qrun add-update <加分原因> <整数> [--names <以逗号分隔的多个姓名>]`命令自动添加，`--names`选项未设置时，默认从粘贴板中获取姓名列表，此外如果json文件中已经存在相应姓名，执行`add-update`会在原有值基础上进行增减。
 
 2. `qrun daily-update`将模板中数据导入数据库（未出现在数据库中的名字将被自动创建）。
 
