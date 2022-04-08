@@ -147,7 +147,7 @@ def gen_update_template():
 
 
 @app.command()
-def add_update(contents: str, score: int, names: str = pyperclip.paste()):
+def add_update(contents: str, score: int, names: str = '_'):
     """
     添加加分项
 
@@ -158,13 +158,20 @@ def add_update(contents: str, score: int, names: str = pyperclip.paste()):
     """
     import re
     import json
+    if names == '_':
+        names = pyperclip.paste()
     name_ls = set(re.split(',|，| |\|', names))
     if '' in name_ls:
         name_ls.remove('')
     with open('dist/update.json', 'r') as f:
         res = json.loads(f.read())
     with open('dist/update.json', 'w') as f:
-        res['stars'].update({i: score for i in name_ls})
+        for item in name_ls:
+            if item not in res['stars']:
+                res['stars'][item] = score
+            else:
+                res['stars'][item] += score
+        # res['stars'].update({i: score for i in name_ls})
         res['contents'].append(contents)
         json.dump(res, f, indent=1, ensure_ascii=False)
 
