@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 engine = create_engine(f'sqlite:///{rt_dir}/dist/flower.db', encoding='utf-8')
 Session = sessionmaker(bind=engine)
 Success = {'status': True}
+Failed = {'status': False}
 
 
 def APIFuncWrapper(func):
