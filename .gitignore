@@ -4,3 +4,4 @@ dist/update.json
 dist/index.md
 .DS_Store
 public/index.html
+src/__pycache__
