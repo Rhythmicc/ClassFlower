@@ -186,5 +186,12 @@ def add_update(contents: str, score: int, names: str = 'pyperclip.paste()'):
         json.dump(res, f, indent=1, ensure_ascii=False)
 
 
+@app.command()
+def re_login():
+    import os
+    os.system('tcb logout')
+    os.system('tcb login')
+
+
 if __name__ == '__main__':
     app()
