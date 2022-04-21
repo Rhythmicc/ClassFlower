@@ -33,6 +33,8 @@ pip3 install -r requirements.txt
 
 ## 使用方式
 
+![](./dist/show.png)
+
 1. `qrun gen-update-template`将生成一个空模板，位置在`dist/update.json`，按照如下格式填写：
 
    ```json
