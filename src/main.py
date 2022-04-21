@@ -139,6 +139,45 @@ def daily_update(json_filepath: str = 'dist/update.json', disable_auto_insert: b
 
 
 @app.command()
+def revert(json_filepath: str = 'dist/update.json', disable_auto_insert: bool = True):
+    """
+    每日更新，默认用dist/update.json
+
+    :param json_filepath: 每日更新表
+    :param disable_auto_insert: 是否禁用自动插入
+    :return:
+    """
+    import json
+    import datetime
+    from rich.table import Table
+    from rich.box import SIMPLE_HEAVY
+
+    try:
+        with open(json_filepath, 'r') as f:
+            update_info = json.load(f)
+        date = datetime.datetime.today()
+        tb = Table(title=f'每日更新\n{date}', title_style='bold', box=SIMPLE_HEAVY)
+        tb.add_column('姓名', style='bold', justify='center')
+        tb.add_column('加分', style='bold', justify='center')
+        tb.add_column('状态', style='bold', justify='center')
+        for item in update_info['stars']:
+            res = RecordAPI.update_record(item, -update_info['stars'][item], disable_auto_insert=disable_auto_insert)
+            if not res['status']:
+                QproDefaultConsole.print(QproErrorString, res['message'])
+                tb.add_row(item, str(-update_info['stars'][item]), '[bold red]×')
+            else:
+                tb.add_row(item, str(-update_info['stars'][item]), '[bold green]√')
+        for item in update_info['contents']:
+            res = ReasonsAPI.del_reason(date, item)
+            if not res['status']:
+                QproDefaultConsole.print(QproErrorString, res['message'])
+    except:
+        QproDefaultConsole.print_exception()
+    else:
+        QproDefaultConsole.print(tb, justify='center')
+
+
+@app.command()
 def gen_update_template():
     """
     生成一个空白的每日更新表

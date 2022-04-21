@@ -12,6 +12,19 @@ class ReasonsAPI:
 
     @staticmethod
     @APIFuncWrapper
+    def del_reason(rdate, rcontent, session: Session = None):
+        obj = session.query(Reasons).filter(Reasons.date == rdate, Reasons.content == rcontent).first()
+        if obj:
+            session.delete(obj)
+            return Success
+        else:
+            return {
+                'status': False,
+                'message': 'Reason not found'
+            }
+
+    @staticmethod
+    @APIFuncWrapper
     def list_reasons_ordered_by_date(session: Session = None):
         return {
             'status': True,
