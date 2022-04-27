@@ -141,7 +141,7 @@ def daily_update(json_filepath: str = 'dist/update.json', disable_auto_insert: b
 @app.command()
 def revert(json_filepath: str = 'dist/update.json', disable_auto_insert: bool = True):
     """
-    每日更新，默认用dist/update.json
+    取消更新过的dist/update.json
 
     :param json_filepath: 每日更新表
     :param disable_auto_insert: 是否禁用自动插入
